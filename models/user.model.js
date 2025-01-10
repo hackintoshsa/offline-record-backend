@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const createUser = async (username, hashedPassword) => {
     try {
         console.log("Username:", username, "Password:", hashedPassword);
-        const query = 'INSERT INTO public.users(id, username, password) VALUES ($1, $2, $3) RETURNING *';
+        const query = 'INSERT INTO users(id, username, password) VALUES ($1, $2, $3) RETURNING *';
         console.log(query)
         const values = [uuidv4(), username, hashedPassword];
         const result = await pool.query(query, values);
@@ -17,10 +17,9 @@ export const createUser = async (username, hashedPassword) => {
 };
 
 
-
 // Get a user by username
 export const getUserByUsername = async (username) => {
-    const query = 'SELECT * FROM public.users WHERE username = $1';
+    const query = 'SELECT * FROM users WHERE username = $1';
     const values = [username];
     const result = await pool.query(query, values);
     return result.rows[0]; // Return user or null
